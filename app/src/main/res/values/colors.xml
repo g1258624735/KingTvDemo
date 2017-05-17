@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorBg">#f6f6f6</color>
+
+    <color name="colorTabNor">#666666</color>
+    <color name="colorTabSel">#4f83ef</color>
+
+    <color name="color_normal">#6798f8</color>
+
+    <color name="color_333">#333333</color>
+    <color name="color_666">#666666</color>
+    <color name="color_777">#777777</color>
+    <color name="color_888">#888888</color>
+    <color name="color_999">#999999</color>
+    <color name="color_ddd">#dddddd</color>
+    <color name="color_ccc">#cccccc</color>
+    <color name="colorDeepLine">@color/color_ddd</color>
+    <color name="colorLightLine">#ededed</color>
+
+
+    <!-- 按钮的状态-->
+    <color name="btn_normal">#6798f8</color>
+    <color name="btn_press">#5f8ce5</color>
+    <color name="btn_select">#996798f8</color>
+    <color name="btn_enable">#cccccc</color>
+    <color name="bar_bg">#F0F8FF</color>
+    <!--文本颜色-->
+    <color name="text_normal">#ffffff</color>
+    <color name="text_press">#ffffff</color>
+    <color name="text_select">#fbcfbd</color>
+    <color name="text_enable">#ffffff</color>
+    <color name="text_blue">#53acf7</color>
+    <color name="text_hint">#ededed</color>
+
+    <!--线条颜色-->
+    <color name="line_black">#d2d2d2</color>
+    <color name="line_black2">#d8d8d8</color>
+    <color name="line_black3">#e6e6e6</color>
+    <color name="line_black4">#4d4948</color>
+    <color name="color_white">@android:color/white</color>
+    <color name="color_dc">#dcdcdc</color>
+    <color name="color_db">#dbdbdb</color>
+
+    <drawable name="general_pre">@color/line_black3</drawable>
+    <color name="color_transparent">@android:color/transparent</color>
+    <color name="color_line_deep">#ededed</color>
+    <color name="color_red">#f24a2e</color>
+    <color name="color_blue_light">#5d8ef0</color>
+
+    <color name="item_bg">#ffb359</color>
+    <color name="pay_bg">#27b6ef</color>
+    <color name="income_bg">#ffb359</color>
+    <color name="divider">#f0f0f0</color>
+    <color name="black">#000000</color>
+
+    <!-- 浅灰色 -->
+    <color name="gray_light">#F0EFF5</color>
+    <color name="color_f35a32">#EE881A</color>
+    <color name="textcolor_blue">#008aff</color>
+    <color name="textcolor_white_light">#D5E0FB</color>
+
+</resources>
