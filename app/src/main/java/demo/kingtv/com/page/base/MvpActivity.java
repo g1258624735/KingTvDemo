@@ -16,7 +16,9 @@
 
 package demo.kingtv.com.page.base;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +37,12 @@ public abstract class MvpActivity<V extends MvpView, P extends MvpPresenter<V>> 
 
     public abstract void createPresenter();
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        createPresenter();
+        super.onCreate(savedInstanceState);
+
+    }
 
     @NonNull
     @Override
@@ -61,6 +69,20 @@ public abstract class MvpActivity<V extends MvpView, P extends MvpPresenter<V>> 
             presenter.detachView(true);
             presenter=null;
         }
+    }
+    @Override
+    public boolean isRetainInstance() {
+        return false;
+    }
+
+    @Override
+    public void setRetainInstance(boolean retainingInstance) {
+
+    }
+
+    @Override
+    public boolean shouldInstanceBeRetained() {
+        return false;
     }
 }
 

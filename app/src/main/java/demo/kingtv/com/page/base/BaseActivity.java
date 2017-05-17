@@ -18,6 +18,8 @@ package demo.kingtv.com.page.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -26,11 +28,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import demo.kingtv.com.page.R;
+import demo.kingtv.com.page.base.dialog.LoadingDialog;
 import demo.kingtv.com.page.module.MainActivity;
 
 /**
  * @author gxj
- *         date 2017/5/11
+ * @date 2017/5/11
  * @since 1.0.0
  */
 public abstract class BaseActivity extends AppCompatActivity {
@@ -40,15 +43,37 @@ public abstract class BaseActivity extends AppCompatActivity {
     private ImageView imgRight;
     private LinearLayout layoutTop;
     private FrameLayout rootContent;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        initTop();
         initView();
+        initListener();
+        initData();
     }
 
-    private void initView() {
+    /**
+     * 初始化布局
+     */
+    protected abstract void initView();
+
+    /**
+     * 初始化请求
+     */
+    protected abstract void initListener();
+
+    /**
+     * 初始化数据
+     */
+    protected abstract void initData();
+
+    /**
+     * 初始化头部数据
+     */
+    private void initTop() {
         imgLeft = (ImageView) findViewById(R.id.ivLeft);
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         imgRight = (ImageView) findViewById(R.id.ivRight);
@@ -62,8 +87,18 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * 必须实例化的获取布局的抽象方法
+     *
+     * @return
+     */
     protected abstract int getRootViewId();
 
+    /**
+     * 得到头部布局
+     *
+     * @return
+     */
     protected View getRootView() {
         return rootContent;
     }
@@ -95,6 +130,26 @@ public abstract class BaseActivity extends AppCompatActivity {
         tvTitle.setText(title);
     }
 
+    /**
+     * 弹出dialog
+     */
+    public void showLoadingDialog() {
+        if (!isFinishing()) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            if (getSupportFragmentManager().findFragmentByTag("GloLoadingDialog") != null) {
+                transaction.remove(getSupportFragmentManager().findFragmentByTag("GloLoadingDialog"));
+            }
+            loadingDialog = new LoadingDialog();
+            loadingDialog.show(this, "GloLoadingDialog");
+        }
+    }
+
+    public void dismissDialog() {
+        if (!isFinishing() && null != loadingDialog && loadingDialog.isAdded() && loadingDialog.isResumed()) {
+            loadingDialog.dismissAllowingStateLoss();
+            loadingDialog = null;
+        }
+    }
 
 }
 

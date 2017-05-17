@@ -16,41 +16,38 @@
 
 package demo.kingtv.com.page.module.main.ui;
 
-import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
-import android.view.View;
 import android.widget.Toast;
 
 import com.jude.easyrecyclerview.EasyRecyclerView;
-import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.decoration.SpaceDecoration;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import demo.kingtv.com.page.R;
-import demo.kingtv.com.page.base.MvpFragment;
-import demo.kingtv.com.page.module.main.adapter.CategoryAdapter;
-import demo.kingtv.com.page.module.main.bean.LiveCategory;
-import demo.kingtv.com.page.module.main.iml.IHomeView;
-import demo.kingtv.com.page.module.main.presenter.HomePrestener;
+import demo.kingtv.com.page.base.MvpActivity;
+import demo.kingtv.com.page.module.invest.bean.LiveListResult;
+import demo.kingtv.com.page.module.main.adapter.LiveAdapter;
+import demo.kingtv.com.page.module.main.bean.LiveInfo;
+import demo.kingtv.com.page.module.main.iml.IDetialView;
+import demo.kingtv.com.page.module.main.presenter.DetialPrestener;
 import demo.kingtv.com.page.utils.DensityUtil;
 
 /**
  * @author gxj
  * @date 2017/5/11
  * @since 1.0.0
- * 首页
+ * 直播列表页
  */
-public class HomeFragment extends MvpFragment<IHomeView, HomePrestener> implements IHomeView {
+public class DetialActivity extends MvpActivity<IDetialView, DetialPrestener> implements IDetialView {
 
     private EasyRecyclerView easyRecyclerView;
-    private ArrayList<LiveCategory> listData;
-    private CategoryAdapter easyLiveAdapter;
+    private ArrayList<LiveInfo> listData;
+    private LiveAdapter easyLiveAdapter;
 
     @Override
     public void createPresenter() {
-        HomePrestener homePrestener = new HomePrestener(this);
+        DetialPrestener homePrestener = new DetialPrestener(this);
         setPresenter(homePrestener);
     }
 
@@ -60,28 +57,24 @@ public class HomeFragment extends MvpFragment<IHomeView, HomePrestener> implemen
     }
 
     @Override
-    public void initUI(View rootView) {
-        super.initUI(rootView);
-        easyRecyclerView = (EasyRecyclerView) rootView.findViewById(R.id.recyView);
-        SpaceDecoration spaceDecoration = new SpaceDecoration(DensityUtil.dp2px(activity, 6));
+    protected void initView() {
+        easyRecyclerView = (EasyRecyclerView) findViewById(R.id.recyView);
+        SpaceDecoration spaceDecoration = new SpaceDecoration(DensityUtil.dp2px(this, 6));
         easyRecyclerView.addItemDecoration(spaceDecoration);
-//        recyclerView.setRefreshingColor(R.color.colorPrimary);
         easyRecyclerView.setRefreshingColorResources(R.color.color_blue_light);
-
         listData = new ArrayList<>();
-        easyLiveAdapter = new CategoryAdapter(activity, listData);
+        easyLiveAdapter = new LiveAdapter(this, listData);
         easyLiveAdapter.setNotifyOnChange(false);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(activity, 3);
-        gridLayoutManager.setSpanSizeLookup(easyLiveAdapter.obtainGridSpanSizeLookUp(3));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        gridLayoutManager.setSpanSizeLookup(easyLiveAdapter.obtainGridSpanSizeLookUp(2));
         easyRecyclerView.setLayoutManager(gridLayoutManager);
-
         easyRecyclerView.setAdapter(easyLiveAdapter);
+    }
+
+    @Override
+    protected void initListener() {
         easyRecyclerView.setRefreshListener(() -> {
             easyRecyclerView.setRefreshing(false);
-        });
-        easyLiveAdapter.setOnItemClickListener((int position)-> {
-            Intent intent = new Intent(activity,DetialActivity.class);
-            startActivity(intent);
         });
     }
 
@@ -90,31 +83,32 @@ public class HomeFragment extends MvpFragment<IHomeView, HomePrestener> implemen
      */
     @Override
     public void initData() {
-        getPresenter().getAllCategories();
+        getPresenter().getAllList();
     }
 
     @Override
     public void showProgress() {
-        activity.showLoadingDialog();
+        showLoadingDialog();
     }
 
     @Override
     public void onCompleted() {
-        activity.dismissDialog();
+        dismissDialog();
     }
 
     @Override
     public void onError(Throwable e) {
-        Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onGetLiveCategory(List<LiveCategory> list) {
+    public void onGetLiveList(LiveListResult list) {
         if (list != null) {
-            easyLiveAdapter.addAll(list);
+            easyLiveAdapter.addAll(list.getData());
             easyLiveAdapter.notifyDataSetChanged();
         }
     }
+
 
 }
 

@@ -54,10 +54,19 @@ public class WelcomeActivity extends BaseActivity {
         return R.layout.activity_welcome;
     }
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initView() {
         hideTopView();
+    }
+
+    @Override
+    protected void initListener() {
+
+    }
+
+    @Override
+    protected void initData() {
         startAnimation(getRootView());
     }
 }
