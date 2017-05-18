@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package demo.kingtv.com.page.module.main.iml;
+package demo.kingtv.com.page.module.mine.iml;
 
 import rx.Observer;
 
@@ -24,7 +24,7 @@ import rx.Observer;
  * @author gxj
  * @date 2017/5/15
  */
-public interface IHomeMode  {
-    void getAllCategories(Observer observer);
+public interface IMineMode {
+    void getMineInfo(Observer observer);
 
 }

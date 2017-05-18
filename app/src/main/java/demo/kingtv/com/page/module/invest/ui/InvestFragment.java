@@ -16,13 +16,27 @@
 
 package demo.kingtv.com.page.module.invest.ui;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
+import android.widget.Toast;
+
+import com.jude.easyrecyclerview.EasyRecyclerView;
+import com.jude.easyrecyclerview.decoration.SpaceDecoration;
+
+import java.util.ArrayList;
 
 import demo.kingtv.com.page.R;
 import demo.kingtv.com.page.base.MvpFragment;
 import demo.kingtv.com.page.base.iml.MvpPresenter;
 import demo.kingtv.com.page.base.iml.MvpView;
 import demo.kingtv.com.page.module.MainActivity;
+import demo.kingtv.com.page.module.invest.adapter.InvestAdapter;
+import demo.kingtv.com.page.module.invest.bean.LiveListResult;
+import demo.kingtv.com.page.module.invest.iml.IInvestView;
+import demo.kingtv.com.page.module.invest.presenter.InvestPrestener;
+import demo.kingtv.com.page.module.main.adapter.LiveAdapter;
+import demo.kingtv.com.page.module.main.bean.LiveInfo;
+import demo.kingtv.com.page.utils.DensityUtil;
 
 /**
  * @author gxj
@@ -30,9 +44,15 @@ import demo.kingtv.com.page.module.MainActivity;
  * @since 1.0.0
  * 列表页
  */
-public class InvestFragment<V extends MvpView, P extends MvpPresenter<V>> extends MvpFragment{
+public class InvestFragment extends MvpFragment<IInvestView, InvestPrestener> implements IInvestView {
+    private EasyRecyclerView easyRecyclerView;
+    private ArrayList<LiveInfo> listData;
+    private InvestAdapter easyLiveAdapter;
+
     @Override
     public void createPresenter() {
+        InvestPrestener investPrestener = new InvestPrestener(this);
+        setPresenter(investPrestener);
     }
 
     @Override
@@ -41,18 +61,57 @@ public class InvestFragment<V extends MvpView, P extends MvpPresenter<V>> extend
     }
 
     @Override
-    public void initUI(View rootView) {
-
+    public void initView(View rootView) {
+        super.initView(rootView);
+        easyRecyclerView = (EasyRecyclerView) rootView.findViewById(R.id.recyView);
+        SpaceDecoration spaceDecoration = new SpaceDecoration(DensityUtil.dp2px(activity, 6));
+        easyRecyclerView.addItemDecoration(spaceDecoration);
+        easyRecyclerView.setRefreshingColorResources(R.color.color_blue_light);
+        listData = new ArrayList<>();
+        easyLiveAdapter = new InvestAdapter(activity, listData);
+        easyLiveAdapter.setNotifyOnChange(false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(activity, 2);
+        gridLayoutManager.setSpanSizeLookup(easyLiveAdapter.obtainGridSpanSizeLookUp(2));
+        easyRecyclerView.setLayoutManager(gridLayoutManager);
+        easyRecyclerView.setAdapter(easyLiveAdapter);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void initListener() {
+        easyRecyclerView.setRefreshListener(() -> {
+            easyRecyclerView.setRefreshing(false);
+        });
     }
 
+    /**
+     * 请求网络数据
+     */
     @Override
     public void initData() {
+        getPresenter().getAllList();
+    }
 
+    @Override
+    public void showProgress() {
+        activity.showLoadingDialog();
+    }
+
+    @Override
+    public void onCompleted() {
+        activity.dismissDialog();
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGetLiveList(LiveListResult list) {
+        if (list != null) {
+            easyLiveAdapter.addAll(list.getData());
+            easyLiveAdapter.notifyDataSetChanged();
+        }
     }
 }
 

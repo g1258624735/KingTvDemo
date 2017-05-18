@@ -1,21 +1,21 @@
-package demo.kingtv.com.page.module.main.mode;
+package demo.kingtv.com.page.module.invest.mode;
 
 import demo.kingtv.com.page.http.APIRetrofit;
-import demo.kingtv.com.page.module.main.iml.IHomeMode;
+import demo.kingtv.com.page.module.invest.iml.IInvestMode;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Administrator on 2017/5/16.
- * mode 一般处理耗时操作
+ * Created by gxj on 2017/5/16.
+ * 我的列表
  */
 
-public class HomeMode implements IHomeMode {
+public class InvestMode implements IInvestMode {
     @Override
-    public void getAllCategories(Observer observer) {
+    public void getAllList(Observer observer) {
         APIRetrofit.getAPIService()
-                .getAllCategories()
+                .getLiveListResult()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);

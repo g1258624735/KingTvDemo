@@ -24,7 +24,6 @@ import rx.Observer;
  * @author gxj
  * @date 2017/5/15
  */
-public interface IHomeMode  {
-    void getAllCategories(Observer observer);
-
+public interface IDetailMode {
+    void getAllList(Observer observer);
 }

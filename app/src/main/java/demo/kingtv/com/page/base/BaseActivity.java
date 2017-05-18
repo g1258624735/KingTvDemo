@@ -16,6 +16,7 @@
 
 package demo.kingtv.com.page.base;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -27,6 +28,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+
 import demo.kingtv.com.page.R;
 import demo.kingtv.com.page.base.dialog.LoadingDialog;
 import demo.kingtv.com.page.module.MainActivity;
@@ -36,7 +39,7 @@ import demo.kingtv.com.page.module.MainActivity;
  * @date 2017/5/11
  * @since 1.0.0
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends RxAppCompatActivity {
 
     private ImageView imgLeft;
     private TextView tvTitle;
@@ -151,5 +154,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 只有确定按钮的dialog
+     */
+    public void showOneDialog(String msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示");
+        builder.setMessage(msg);
+        builder.setPositiveButton("确定",(DialogInterface dialog, int which) -> {
+            dialog.dismiss();
+        });
+        builder.create();
+        builder.show();
+    }
 }
 

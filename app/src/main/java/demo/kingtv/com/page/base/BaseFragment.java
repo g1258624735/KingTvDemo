@@ -19,20 +19,22 @@ package demo.kingtv.com.page.base;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.trello.rxlifecycle.components.support.RxFragment;
 
 import demo.kingtv.com.page.base.iml.MvpView;
 import demo.kingtv.com.page.base.presenter.MvpBasePresenter;
 
 /**
  * @author gxj
- *         date 2017/5/11
+ * @date 2017/5/11
  * @since 1.0.0
+ * 新增继承RxFragment 便于rxjava 管理
  */
-public abstract class BaseFragment <V extends MvpView,P extends MvpBasePresenter<V>> extends Fragment {
+public abstract class BaseFragment<V extends MvpView, P extends MvpBasePresenter<V>> extends RxFragment {
     protected View rootView;
     protected BaseActivity activity;
 
@@ -53,19 +55,22 @@ public abstract class BaseFragment <V extends MvpView,P extends MvpBasePresenter
         if (parent != null) {
             parent.removeView(rootView);
         }
-        initUI(rootView);
+        initView(rootView);
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initListener();
         initData();
     }
 
     public abstract int getRootViewId();
 
-    public abstract void initUI(View rootView);
+    public abstract void initView(View rootView);
+
+    public abstract void initListener();
 
     public abstract void initData();
 

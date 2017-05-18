@@ -17,12 +17,20 @@
 package demo.kingtv.com.page.module.mine.ui;
 
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
 
 import demo.kingtv.com.page.R;
 import demo.kingtv.com.page.base.MvpFragment;
 import demo.kingtv.com.page.base.iml.MvpPresenter;
 import demo.kingtv.com.page.base.iml.MvpView;
 import demo.kingtv.com.page.module.MainActivity;
+import demo.kingtv.com.page.module.main.bean.LiveCategory;
+import demo.kingtv.com.page.module.mine.iml.IMineView;
+import demo.kingtv.com.page.module.mine.presenter.MinePrestener;
 
 /**
  * @author gxj
@@ -30,11 +38,14 @@ import demo.kingtv.com.page.module.MainActivity;
  * @since 1.0.0
  * 列表页
  */
-public class MineFragment<V extends MvpView, P extends MvpPresenter<V>> extends MvpFragment  {
+public class MineFragment extends MvpFragment<IMineView, MinePrestener> implements IMineView {
+
+    private LinearLayout linear_tel;
 
     @Override
     public void createPresenter() {
-
+        MinePrestener prestener = new MinePrestener(this);
+        setPresenter(prestener);
     }
 
     @Override
@@ -43,12 +54,41 @@ public class MineFragment<V extends MvpView, P extends MvpPresenter<V>> extends 
     }
 
     @Override
-    public void initUI(View rootView) {
+    public void initView(View rootView) {
+        super.initView(rootView);
+        linear_tel = (LinearLayout) rootView.findViewById(R.id.linear_tel);
+    }
 
+    @Override
+    public void initListener() {
+        linear_tel.setOnClickListener((v) -> {
+            activity.showOneDialog("您即将拨打电话 110");
+        });
     }
 
     @Override
     public void initData() {
+        getPresenter().getMineInfo();
+    }
+
+    @Override
+    public void showProgress() {
+        activity.showLoadingDialog();
+    }
+
+    @Override
+    public void onCompleted() {
+        activity.dismissDialog();
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGetMine(List<LiveCategory> list) {
+
     }
 }
 

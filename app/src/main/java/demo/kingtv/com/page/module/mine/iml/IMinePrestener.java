@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package demo.kingtv.com.page.module.main.iml;
-
-import rx.Observer;
+package demo.kingtv.com.page.module.mine.iml;
 
 /**
  * The root view interface for every mvp view
@@ -24,7 +22,7 @@ import rx.Observer;
  * @author gxj
  * @date 2017/5/15
  */
-public interface IHomeMode  {
-    void getAllCategories(Observer observer);
+public interface IMinePrestener {
+
 
 }

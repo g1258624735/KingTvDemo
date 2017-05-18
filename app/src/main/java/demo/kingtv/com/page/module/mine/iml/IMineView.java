@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package demo.kingtv.com.page.module.main.iml;
+package demo.kingtv.com.page.module.mine.iml;
 
-import rx.Observer;
+import java.util.List;
+
+import demo.kingtv.com.page.base.iml.BaseView;
+import demo.kingtv.com.page.module.main.bean.LiveCategory;
 
 /**
- * The root view interface for every mvp view
- *
  * @author gxj
  * @date 2017/5/15
  */
-public interface IHomeMode  {
-    void getAllCategories(Observer observer);
+public interface IMineView extends BaseView {
+    void onGetMine(List<LiveCategory> list);
 
 }

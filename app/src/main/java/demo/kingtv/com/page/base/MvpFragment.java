@@ -43,7 +43,7 @@ public abstract class MvpFragment<V extends MvpView, P extends MvpPresenter<V>> 
     }
 
     @Override
-    public void initUI(View rootView) {
+    public void initView(View rootView) {
         createPresenter();
     }
 

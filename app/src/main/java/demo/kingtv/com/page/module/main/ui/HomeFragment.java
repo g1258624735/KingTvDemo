@@ -60,28 +60,30 @@ public class HomeFragment extends MvpFragment<IHomeView, HomePrestener> implemen
     }
 
     @Override
-    public void initUI(View rootView) {
-        super.initUI(rootView);
+    public void initView(View rootView) {
+        super.initView(rootView);
         easyRecyclerView = (EasyRecyclerView) rootView.findViewById(R.id.recyView);
         SpaceDecoration spaceDecoration = new SpaceDecoration(DensityUtil.dp2px(activity, 6));
         easyRecyclerView.addItemDecoration(spaceDecoration);
-//        recyclerView.setRefreshingColor(R.color.colorPrimary);
         easyRecyclerView.setRefreshingColorResources(R.color.color_blue_light);
-
         listData = new ArrayList<>();
         easyLiveAdapter = new CategoryAdapter(activity, listData);
         easyLiveAdapter.setNotifyOnChange(false);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(activity, 3);
         gridLayoutManager.setSpanSizeLookup(easyLiveAdapter.obtainGridSpanSizeLookUp(3));
         easyRecyclerView.setLayoutManager(gridLayoutManager);
-
         easyRecyclerView.setAdapter(easyLiveAdapter);
+
+    }
+
+    @Override
+    public void initListener() {
+        easyLiveAdapter.setOnItemClickListener((int position) -> {
+            Intent intent = new Intent(activity, DetialActivity.class);
+            startActivity(intent);
+        });
         easyRecyclerView.setRefreshListener(() -> {
             easyRecyclerView.setRefreshing(false);
-        });
-        easyLiveAdapter.setOnItemClickListener((int position)-> {
-            Intent intent = new Intent(activity,DetialActivity.class);
-            startActivity(intent);
         });
     }
 

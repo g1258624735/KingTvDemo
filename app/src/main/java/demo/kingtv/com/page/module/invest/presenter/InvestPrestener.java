@@ -1,38 +1,37 @@
-package demo.kingtv.com.page.module.main.presenter;
-
-import java.util.List;
+package demo.kingtv.com.page.module.invest.presenter;
 
 import demo.kingtv.com.page.base.presenter.MvpBasePresenter;
 import demo.kingtv.com.page.http.APIRetrofit;
-import demo.kingtv.com.page.module.main.bean.LiveCategory;
-import demo.kingtv.com.page.module.main.iml.IHomeMode;
-import demo.kingtv.com.page.module.main.iml.IHomeView;
-import demo.kingtv.com.page.module.main.mode.HomeMode;
+import demo.kingtv.com.page.module.invest.bean.LiveListResult;
+import demo.kingtv.com.page.module.invest.iml.IInvestMode;
+import demo.kingtv.com.page.module.invest.iml.IInvestView;
+import demo.kingtv.com.page.module.invest.mode.InvestMode;
+import demo.kingtv.com.page.module.main.iml.IDetialView;
 import demo.kingtv.com.page.utils.LogUtils;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * 首页数据列表
- * 一般处理和VIew控制器直接相关的逻辑
- * 耗时的操作一般放在mode 里面处理
+ * 小分类下数据列表
+ * @gxj
+ * @date 2017/5/18
  */
-public class HomePrestener extends MvpBasePresenter<IHomeView> {
+public class InvestPrestener extends MvpBasePresenter<IInvestView> {
 
-    private final IHomeMode mode;
+    private final IInvestMode mode;
 
-    public HomePrestener(IHomeView view) {
+    public InvestPrestener(IInvestView view) {
         attachView(view);
-        mode = new HomeMode();
+        mode = new InvestMode();
     }
 
     /**
      * 获取数据列表
      */
-    public void getAllCategories() {
+    public void getAllList() {
         getView().showProgress();
-        mode.getAllCategories(new Observer<List<LiveCategory>>() {
+        mode.getAllList(new Observer<LiveListResult>() {
             @Override
             public void onCompleted() {
                 if (isViewAttached())
@@ -46,14 +45,13 @@ public class HomePrestener extends MvpBasePresenter<IHomeView> {
             }
 
             @Override
-            public void onNext(final List<LiveCategory> list) {
+            public void onNext(final LiveListResult list) {
                 LogUtils.d("Response:", "" + list);
                 if (isViewAttached()) {
-                    getView().onGetLiveCategory(list);
+                    getView().onGetLiveList(list);
                 }
             }
         });
-
     }
 
 
